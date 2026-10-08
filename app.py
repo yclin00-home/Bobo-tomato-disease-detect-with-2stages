@@ -91,7 +91,11 @@ def predict_tomato_disease(input_pil_img):
     if input_pil_img is None:
         return None, "No image", "Please upload or select an image.", None, None
 
-    input_pil_img = ImageOps.exif_transpose(input_pil_img).convert("RGB")
+    #input_pil_img = ImageOps.exif_transpose(input_pil_img).convert("RGB")
+    input_pil_img = ImageOps.exif_transpose(input_pil_img)
+    input_pil_img.thumbnail((1024, 1024))   # 最長邊超過 1024 就等比例縮小
+    input_pil_img = input_pil_img.convert("RGB")
+    
     x = val_transforms(input_pil_img).unsqueeze(0).to(device)
 
     # ===== Stage 1: Is it a tomato leaf? =====
