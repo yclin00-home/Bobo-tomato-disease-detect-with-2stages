@@ -105,8 +105,9 @@ def predict_tomato_disease(input_pil_img):
     if p_tomato < GATE_THRESHOLD:
         advice = (f"🚫 **This is not a tomato leaf** (tomato-leaf probability only {p_tomato*100:.1f}%). "
                   "Please upload a clear photo of a single tomato leaf.")
-        return {"Not a tomato leaf": 1 - p_tomato, "Tomato leaf": p_tomato}, "N/A", advice, None, None
-
+        #return {"Not a tomato leaf": 1 - p_tomato, "Tomato leaf": p_tomato}, "N/A", advice, None, None
+        return {"Rejected: not confident it is a tomato leaf": 1.0}, "N/A", advice, None, None
+        
     # ===== Stage 2: Disease classification =====
     with torch.no_grad():
         probs = torch.softmax(model(x)[0], dim=0)
